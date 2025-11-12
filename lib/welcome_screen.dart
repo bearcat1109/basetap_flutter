@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dialogs.dart';
+import 'statistics_manager.dart';
 
 // Welcome screen
 class WelcomeScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             height: double.infinity,
             gaplessPlayback: true,
           ),
-          // Scrollable content to prevent overflow
+          // Scrollable content
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -107,10 +108,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
-                      // Player Count Buttons - Circular layout in pairs
+                      // Player Count Buttons
                       Column(
                         children: [
-                          // First row: 1 and 2 players
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -119,7 +119,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Second row: 3 and 4 players
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -128,7 +127,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             ],
                           ),
                           const SizedBox(height: 16),
-                          // Third row: 5 and 6 players
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -143,10 +141,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          // Statistics button (if you have one)
+                          // Statistics button
                           TextButton(
                             onPressed: () {
-                              // Add statistics functionality here if needed
+                              showDialog(
+                                context: context,
+                                builder: (context) => StatisticsDialog(
+                                  onDismissRequest: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              );
                             },
                             child: const Text(
                               "Statistics",

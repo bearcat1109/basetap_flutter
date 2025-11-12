@@ -17,6 +17,7 @@ class PlayerCounter extends StatefulWidget {
   final Function(int) onBaseChange;
   final int leaderId;
   final Function(int) onLeaderChange;
+  final Function(int)? onPlayerDefeated;
 
   const PlayerCounter({
     super.key,
@@ -32,6 +33,7 @@ class PlayerCounter extends StatefulWidget {
     required this.onBaseChange,
     required this.leaderId,
     required this.onLeaderChange,
+    this.onPlayerDefeated,
   });
 
   @override
@@ -68,7 +70,9 @@ class _PlayerCounterState extends State<PlayerCounter>
     // If player is already dead (at or above max health), do nothing
     if (widget.life >= baseMaxHealth + 1) return;
 
-    if (widget.life + newDamage >= 0) {
+    final newLife = widget.life + newDamage;
+
+    if (newLife >= 0) {
       final accumulatedDamage = damageAccumulator.addDamage(newDamage);
 
       setState(() {
@@ -76,11 +80,17 @@ class _PlayerCounterState extends State<PlayerCounter>
         showDamageIndicator = true;
       });
 
-      widget.onLifeChange(widget.life + newDamage);
+      widget.onLifeChange(newLife);
 
       // Trigger shake animation when taking damage
       if (newDamage > 0) {
         _shakeController.forward(from: 0.0);
+      }
+
+      // Check if player just died (reached max health)
+      if (newLife >= baseMaxHealth && widget.life < baseMaxHealth) {
+        // Player just died, trigger victory callback
+        widget.onPlayerDefeated?.call(widget.playerId);
       }
 
       Future.delayed(const Duration(seconds: 3), () {

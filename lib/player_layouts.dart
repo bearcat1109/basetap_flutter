@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'player_counter.dart';
+import 'statistics_manager.dart';
 import 'dialogs.dart';
 
 // Common control button builder
@@ -219,8 +220,7 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
               // Single Player Counter - takes up the rest of the screen
               Expanded(
                 child: PlayerCounter(
-                  isTopPlayer:
-                      false, // Use normal orientation (not upside down)
+                  isTopPlayer: false,
                   baseId: playerBaseId,
                   leaderId: playerLeaderId,
                   life: playerLife,
@@ -235,6 +235,7 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
                   initiativePlayer: widget.initiativePlayer,
                   onInitiativeClaimed: widget.onInitiativeClaimed,
                   playerId: 0,
+                  // No onPlayerDefeated for single player
                 ),
               ),
             ],
@@ -292,7 +293,7 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
   }
 }
 
-// Two Player Layout with Timer
+// Two Player Layout with Timer AND STATISTICS
 class TwoPlayerLayout extends StatefulWidget {
   final int? initiativePlayer;
   final Function(int) onInitiativeClaimed;
@@ -414,6 +415,30 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
     });
   }
 
+  // Handle player defeat and show victory dialog - ONLY FOR 2 PLAYER
+  void _handlePlayerDefeated(int defeatedPlayerId) {
+    // Determine winner (the other player)
+    final winnerPlayerId = defeatedPlayerId == 0 ? 1 : 0;
+    final winnerName = playerNames[winnerPlayerId];
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => VictoryDialog(
+        winnerName: winnerName,
+        onConfirm: () async {
+          // Record the win
+          await StatisticsManager.incrementPlayerWins(winnerName);
+          await StatisticsManager.incrementGamesPlayed();
+          Navigator.of(context).pop();
+        },
+        onCancel: () {
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -441,6 +466,7 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
                   initiativePlayer: widget.initiativePlayer,
                   onInitiativeClaimed: widget.onInitiativeClaimed,
                   playerId: 0,
+                  onPlayerDefeated: _handlePlayerDefeated, // ADD THIS
                 ),
               ),
 
@@ -526,6 +552,7 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
                   initiativePlayer: widget.initiativePlayer,
                   onInitiativeClaimed: widget.onInitiativeClaimed,
                   playerId: 1,
+                  onPlayerDefeated: _handlePlayerDefeated, // ADD THIS
                 ),
               ),
             ],

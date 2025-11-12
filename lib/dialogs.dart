@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'statistics_manager.dart';
 import 'models.dart';
 
 // First time welcome dialog
@@ -456,6 +457,278 @@ class InfoDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: onDismissRequest,
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+}
+
+// Victory confirmation dialog - NEW
+class VictoryDialog extends StatelessWidget {
+  final String winnerName;
+  final VoidCallback onConfirm;
+  final VoidCallback onCancel;
+
+  const VictoryDialog({
+    super.key,
+    required this.winnerName,
+    required this.onConfirm,
+    required this.onCancel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Victory!'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.emoji_events,
+            color: Colors.amber,
+            size: 64,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            '$winnerName has won the game!',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Record this victory?',
+            style: TextStyle(fontSize: 14),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: onCancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: onConfirm,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+            foregroundColor: Colors.white,
+          ),
+          child: const Text('Record Win'),
+        ),
+      ],
+    );
+  }
+}
+
+// Statistics screen dialog - NEW
+class StatisticsDialog extends StatefulWidget {
+  final VoidCallback onDismissRequest;
+
+  const StatisticsDialog({super.key, required this.onDismissRequest});
+
+  @override
+  State<StatisticsDialog> createState() => _StatisticsDialogState();
+}
+
+class _StatisticsDialogState extends State<StatisticsDialog> {
+  Map<String, int> playerStats = {};
+  int totalGames = 0;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStats();
+  }
+
+  Future<void> _loadStats() async {
+    final stats = await StatisticsManager.getAllPlayerStats();
+    final games = await StatisticsManager.getTotalGamesPlayed();
+
+    setState(() {
+      playerStats = stats;
+      totalGames = games;
+      isLoading = false;
+    });
+  }
+
+  Future<void> _resetStats() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reset Statistics'),
+        content: const Text(
+          'Are you sure you want to reset all statistics? This cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Reset'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      await StatisticsManager.resetAllStats();
+      _loadStats();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading) {
+      return const AlertDialog(
+        content: SizedBox(
+          height: 100,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+
+    // Sort players by wins (descending)
+    final sortedPlayers = playerStats.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+
+    return AlertDialog(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('Statistics'),
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            tooltip: 'Reset Statistics',
+            onPressed: _resetStats,
+          ),
+        ],
+      ),
+      content: SizedBox(
+        width: double.maxFinite,
+        height: 400,
+        child: Column(
+          children: [
+            // Total games summary
+            Card(
+              color: Colors.blue.shade50,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Total Games Played:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '$totalGames',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // Player statistics list
+            if (sortedPlayers.isEmpty)
+              const Expanded(
+                child: Center(
+                  child: Text(
+                    'No statistics yet.\nPlay some games to see your stats!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              )
+            else
+              Expanded(
+                child: ListView.builder(
+                  itemCount: sortedPlayers.length,
+                  itemBuilder: (context, index) {
+                    final entry = sortedPlayers[index];
+                    final playerName = entry.key;
+                    final wins = entry.value;
+                    final winPercentage = totalGames > 0
+                        ? (wins / totalGames * 100).toStringAsFixed(1)
+                        : '0.0';
+
+                    return Card(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: index == 0
+                              ? Colors.amber
+                              : index == 1
+                              ? Colors.grey
+                              : index == 2
+                              ? Colors.brown
+                              : Colors.blue,
+                          child: Text(
+                            '${index + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          playerName,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text('$wins wins'),
+                        trailing: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '$winPercentage%',
+                            style: TextStyle(
+                              color: Colors.green.shade900,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: widget.onDismissRequest,
           child: const Text('Close'),
         ),
       ],
