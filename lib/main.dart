@@ -21,6 +21,8 @@ class BaseTapApp extends StatelessWidget {
       home: const MainScreen(),
     );
   }
+
+
 }
 
 // Main screen with game state management
@@ -67,56 +69,59 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Main content with animation
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 400),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              // Determine transition direction based on the screen we're moving to
-              final bool isGoingToPlayerLayout = child is! WelcomeScreen;
+  body: SafeArea(
+    bottom: false,
+    child: Stack(
+      children: [
+        // Main content with animation
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 400),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            final bool isGoingToPlayerLayout = child is! WelcomeScreen;
 
-              final beginOffset = isGoingToPlayerLayout
-                  ? const Offset(1.0, 0.0) // From right
-                  : const Offset(-1.0, 0.0); // From left
+            final beginOffset = isGoingToPlayerLayout
+                ? const Offset(1.0, 0.0)
+                : const Offset(-1.0, 0.0);
 
-              return SlideTransition(
-                position: Tween<Offset>(
-                  begin: beginOffset,
-                  end: Offset.zero,
-                ).animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeInOut,
-                )),
-                child: FadeTransition(
-                  opacity: animation,
-                  child: child,
-                ),
-              );
-            },
-            child: _buildMainContent(),
-          ),
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: beginOffset,
+                end: Offset.zero,
+              ).animate(CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeInOut,
+              )),
+              child: FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+            );
+          },
+          child: _buildMainContent(),
+        ),
 
-          // First time welcome dialog
-          if (showFirstTimePopup)
-            GestureDetector(
-              onTap: () {}, // Prevent taps from passing through
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-                child: Center(
-                  child: FirstTimeWelcomeDialog(
-                    onDismiss: () {
-                      setState(() {
-                        showFirstTimePopup = false;
-                      });
-                    },
-                  ),
+        // First time welcome dialog
+        if (showFirstTimePopup)
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: FirstTimeWelcomeDialog(
+                  onDismiss: () {
+                    setState(() {
+                      showFirstTimePopup = false;
+                    });
+                  },
                 ),
               ),
             ),
-        ],
-      ),
-    );
+          ),
+      ],
+    ),
+  ),
+);
+
   }
 
   Widget _buildMainContent() {

@@ -350,4 +350,23 @@ final leaders = [
   const Leader(id: 285, name: "Qui Gon Jinn, Student of the Living Force (Showcase)", imagePath: "assets/images/leaders/qui_gon_jinn_student_of_the_living_force_showcase.webp"),
   const Leader(id: 286, name: "Third Sister, Seething with Ambition (Showcase)", imagePath: "assets/images/leaders/third_sister_seething_with_ambition_showcase.webp"),
 
-];
+  // SEC showcases
+  const Leader(id:287, name: "Chancellor Palpatine, How Liberty Dies (Showcase)", imagePath: "assets/images/leaders/chancellor_palpatine_how_liberty_dies_showcase.webp"),
+  const Leader(id:288, name: "Jabba the Hutt, Wonderful Human Being (Showcase)", imagePath: "assets/images/leaders/jabba_the_hutt_wonderful_human_being_showcase.webp"),
+  const Leader(id:289, name:"Lama Su, We Modified Their Genetics (Showcase)", imagePath: "assets/images/leaders/lama_su_we_modified_their_genetics_showcase.webp"),
+  const Leader(id:290, name:"Leia Organa, Of a Secret Bloodline (Showcase)", imagePath: "assets/images/leaders/leia_organa_of_a_secret_bloodline_showcase.webp"),
+  const Leader(id:291, name:"Satine Kryze, Standing on Principles (Showcase)", imagePath: "assets/images/leaders/satine_kryze_standing_on_principles_showcase.webp"),
+  const Leader(id:292, name:"Colonel Yularen, This is Why We Plan (Showcase)", imagePath: "assets/images/leaders/colonel_yularen_this_is_why_we_plan_showcase.webp"),
+  const Leader(id:293, name:"Dryden Vos, I Never Ask Twice (Showcase)", imagePath: "assets/images/leaders/dryden_vos_i_never_ask_twice_showcase.webp"),
+  const Leader(id:294, name:"Bail Organa, Doing Everything He Can (Showcase)", imagePath: "assets/images/leaders/bail_organa_doing_everything_he_can_showcase.webp"),
+  const Leader(id:295, name:"Mon Mothma, Forming a Coalition (Showcase)", imagePath: "assets/images/leaders/mon_mothma_forming_a_coalition_showcase.webp"),
+  const Leader(id:296, name:"Dedra Meero, Not Wasting Time (Showcase)", imagePath: "assets/images/leaders/dedra_meero_not_wasting_time_showcase.webp"),
+  const Leader(id:297, name:"Governor Pryce, Tyrant of Lothal (Showcase)", imagePath: "assets/images/leaders/governor_pryce_tyrant_of_lothal_showcase.webp"),
+  const Leader(id:298, name:"Cassian Andor, Climb! (Showcase)", imagePath: "assets/images/leaders/cassian_andor_climb_showcase.webp"),
+  const Leader(id:299, name:"Luthen Rael, Don't You Want to Fight For Real? (Showcase)", imagePath: "assets/images/leaders/luthen_rael_dont_you_want_to_fight_for_real_showcase.webp"),
+  const Leader(id:300, name:"Sly Moore, Cipher in the Dark (Showcase)", imagePath: "assets/images/leaders/sly_moore_cipher_in_the_dark_showcase.webp"),
+  const Leader(id:301, name:"C-3PO, Human-Cyborg Relations (Showcase)", imagePath: "assets/images/leaders/c-3po_human_cyborg_relations_showcase.webp"),
+  const Leader(id:302, name:"Padme Amidala, What do You Have to Hide? (Showcase)", imagePath: "assets/images/leaders/padme_amidala_what_do_you_have_to_hide_showcase.webp"),
+  const Leader(id:303, name:"Sabe, Queen's Shadow (Showcase)", imagePath: "assets/images/leaders/sabe_queens_shadow_showcase.webp"),
+  const Leader(id:304, name:"DJ, Need a Lift? (Showcase)", imagePath: "assets/images/leaders/dj_need_a_lift_showcase.webp"),
+]; 

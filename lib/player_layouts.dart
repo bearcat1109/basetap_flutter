@@ -5,7 +5,6 @@ import 'player_counter.dart';
 import 'statistics_manager.dart';
 import 'dialogs.dart';
 
-// Common control button builder
 Widget buildControlButton({
   required IconData icon,
   required VoidCallback onTap,
@@ -28,7 +27,6 @@ Widget buildControlButton({
   );
 }
 
-// One Player Layout
 class OnePlayerLayout extends StatefulWidget {
   final int? initiativePlayer;
   final Function(int) onInitiativeClaimed;
@@ -48,48 +46,15 @@ class OnePlayerLayout extends StatefulWidget {
 class _OnePlayerLayoutState extends State<OnePlayerLayout>
     with SingleTickerProviderStateMixin {
   int playerLife = 0;
-  int playerLeaderId = 161; // Default leader ID
-  int playerBaseId = 1; // Default base ID
+  int playerLeaderId = 302;
+  int playerBaseId = 60;
   String playerName = "Player 1";
 
-  // Timer variables
   bool _showTimer = false;
   bool _timerRunning = false;
-  int _timerSeconds = 60 * 60; // 1 hour in seconds
+  int _timerSeconds = 60 * 60;
   Timer? _timer;
 
-  // Animation controller for timer panel sliding
-  late AnimationController _animationController;
-  late Animation<Offset> _slideAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Initialize animation controller
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-
-    // Create the slide animation for the timer panel
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, -1), // Start off-screen above
-      end: Offset.zero, // End at normal position
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  // Format seconds into mm:ss or hh:mm:ss
   String _formatTime(int seconds) {
     int hours = seconds ~/ 3600;
     int minutes = (seconds % 3600) ~/ 60;
@@ -102,25 +67,17 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
     }
   }
 
-  // Toggle timer visibility
   void _toggleTimer() {
     setState(() {
       _showTimer = !_showTimer;
-      if (_showTimer) {
-        _animationController.forward();
-      } else {
-        _animationController.reverse();
-      }
     });
   }
 
-  // Start or pause the timer
   void _toggleTimerRunning() {
     setState(() {
       _timerRunning = !_timerRunning;
 
       if (_timerRunning) {
-        // Start the timer
         _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
           setState(() {
             if (_timerSeconds > 0) {
@@ -132,159 +89,130 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
           });
         });
       } else {
-        // Pause the timer
         _timer?.cancel();
       }
     });
   }
 
-  // Reset the timer to 1 hour
   void _resetTimer() {
     setState(() {
-      _timerSeconds = 60 * 60; // 1 hour
+      _timerSeconds = 60 * 60;
       _timerRunning = false;
       _timer?.cancel();
     });
+  }
+
+  Widget _buildTimerPanel() {
+    return Container(
+      height: 80,
+      width: double.infinity,
+      color: Colors.black.withOpacity(0.8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: Icon(
+              _timerRunning ? Icons.pause : Icons.play_arrow,
+              color: Colors.white,
+              size: 32,
+            ),
+            onPressed: _toggleTimerRunning,
+          ),
+          Text(
+            _formatTime(_timerSeconds),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 36,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.replay, color: Colors.white, size: 28),
+            onPressed: _resetTimer,
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      child: Stack(
+      child: Column(
         children: [
-          // Main layout
-          Column(
-            children: [
-              // Top Controls - positioned at the top in the middle
-              Container(
-                height: 80,
-                color: Colors.black,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // Reset Button
-                    buildControlButton(
-                      icon: Icons.refresh,
-                      onTap: () => setState(() {
-                        playerLife = 0;
-                      }),
-                    ),
-
-                    // Return to player count
-                    buildControlButton(
-                      icon: Icons.people,
-                      onTap: widget.onShowPlayerCount,
-                    ),
-
-                    // Timer Toggle Button
-                    buildControlButton(
-                      icon: Icons.timer,
-                      color: _showTimer ? Colors.blue : Colors.white,
-                      onTap: _toggleTimer,
-                    ),
-
-                    // Blast Button
-                    InkWell(
-                      onTap: () => setState(() {
-                        if (playerLife >= 0) playerLife += 1;
-                      }),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Text(
-                          "Blast",
-                          style: TextStyle(color: Colors.red, fontSize: 16),
-                        ),
-                      ),
-                    ),
-
-                    // Info Button
-                    buildControlButton(
-                      icon: Icons.info,
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => InfoDialog(
-                          onDismissRequest: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Single Player Counter - takes up the rest of the screen
-              Expanded(
-                child: PlayerCounter(
-                  isTopPlayer: false,
-                  baseId: playerBaseId,
-                  leaderId: playerLeaderId,
-                  life: playerLife,
-                  playerName: playerName,
-                  onNameChange: (newName) =>
-                      setState(() => playerName = newName),
-                  onBaseChange: (baseId) =>
-                      setState(() => playerBaseId = baseId),
-                  onLeaderChange: (leaderId) =>
-                      setState(() => playerLeaderId = leaderId),
-                  onLifeChange: (value) => setState(() => playerLife = value),
-                  initiativePlayer: widget.initiativePlayer,
-                  onInitiativeClaimed: widget.onInitiativeClaimed,
-                  playerId: 0,
-                  // No onPlayerDefeated for single player
-                ),
-              ),
-            ],
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            child: _showTimer ? _buildTimerPanel() : const SizedBox(height: 0),
           ),
-
-          // Timer Panel
-          SlideTransition(
-            position: _slideAnimation,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                width: double.infinity,
-                height: 80,
-                color: Colors.black.withOpacity(0.8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Play/Pause button
-                    IconButton(
-                      icon: Icon(
-                        _timerRunning ? Icons.pause : Icons.play_arrow,
-                        color: Colors.white,
-                        size: 32,
-                      ),
-                      onPressed: _toggleTimerRunning,
-                    ),
-
-                    // Timer display
-                    Text(
-                      _formatTime(_timerSeconds),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    // Reset button
-                    IconButton(
-                      icon: const Icon(
-                        Icons.replay,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      onPressed: _resetTimer,
-                    ),
-                  ],
+          Container(
+            height: 80,
+            color: Colors.black,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildControlButton(
+                  icon: Icons.refresh,
+                  onTap: () => setState(() {
+                    playerLife = 0;
+                  }),
                 ),
-              ),
+                buildControlButton(
+                  icon: Icons.people,
+                  onTap: widget.onShowPlayerCount,
+                ),
+                buildControlButton(
+                  icon: Icons.timer,
+                  color: _showTimer ? Colors.blue : Colors.white,
+                  onTap: _toggleTimer,
+                ),
+                InkWell(
+                  onTap: () => setState(() {
+                    if (playerLife >= 0) playerLife += 1;
+                  }),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Text(
+                      "Blast",
+                      style: TextStyle(color: Colors.red, fontSize: 16),
+                    ),
+                  ),
+                ),
+                buildControlButton(
+                  icon: Icons.info,
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => InfoDialog(
+                      onDismissRequest: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: PlayerCounter(
+              isTopPlayer: false,
+              baseId: playerBaseId,
+              leaderId: playerLeaderId,
+              life: playerLife,
+              playerName: playerName,
+              onNameChange: (newName) =>
+                  setState(() => playerName = newName),
+              onBaseChange: (baseId) =>
+                  setState(() => playerBaseId = baseId),
+              onLeaderChange: (leaderId) =>
+                  setState(() => playerLeaderId = leaderId),
+              onLifeChange: (value) => setState(() => playerLife = value),
+              initiativePlayer: widget.initiativePlayer,
+              onInitiativeClaimed: widget.onInitiativeClaimed,
+              playerId: 0,
             ),
           ),
         ],
@@ -293,7 +221,6 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
   }
 }
 
-// Two Player Layout with Timer AND STATISTICS
 class TwoPlayerLayout extends StatefulWidget {
   final int? initiativePlayer;
   final Function(int) onInitiativeClaimed;
@@ -314,50 +241,17 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
     with SingleTickerProviderStateMixin {
   int topLife = 0;
   int bottomLife = 0;
-  int topLeaderId = 161;
-  int bottomLeaderId = 168;
-  int topBaseId = 1;
-  int bottomBaseId = 3;
+  int topLeaderId = 287;
+  int bottomLeaderId = 302;
+  int topBaseId = 60;
+  int bottomBaseId = 60;
   List<String> playerNames = ["Player 1", "Player 2"];
 
-  // Timer variables
   bool _showTimer = false;
   bool _timerRunning = false;
-  int _timerSeconds = 60 * 60; // 1 hour in seconds
+  int _timerSeconds = 60 * 60;
   Timer? _timer;
 
-  // Animation controller for timer panel sliding
-  late AnimationController _animationController;
-  late Animation<Offset> _slideAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Initialize animation controller
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-
-    // Create the slide animation for the timer panel
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, -1), // Start off-screen above
-      end: Offset.zero, // End at normal position
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  // Format seconds into mm:ss or hh:mm:ss
   String _formatTime(int seconds) {
     int hours = seconds ~/ 3600;
     int minutes = (seconds % 3600) ~/ 60;
@@ -370,25 +264,17 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
     }
   }
 
-  // Toggle timer visibility
   void _toggleTimer() {
     setState(() {
       _showTimer = !_showTimer;
-      if (_showTimer) {
-        _animationController.forward();
-      } else {
-        _animationController.reverse();
-      }
     });
   }
 
-  // Start or pause the timer
   void _toggleTimerRunning() {
     setState(() {
       _timerRunning = !_timerRunning;
 
       if (_timerRunning) {
-        // Start the timer
         _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
           setState(() {
             if (_timerSeconds > 0) {
@@ -400,24 +286,53 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
           });
         });
       } else {
-        // Pause the timer
         _timer?.cancel();
       }
     });
   }
 
-  // Reset the timer to 1 hour
   void _resetTimer() {
     setState(() {
-      _timerSeconds = 60 * 60; // 1 hour
+      _timerSeconds = 60 * 60;
       _timerRunning = false;
       _timer?.cancel();
     });
   }
 
-  // Handle player defeat and show victory dialog - ONLY FOR 2 PLAYER
+  Widget _buildTimerPanel() {
+    return Container(
+      height: 80,
+      width: double.infinity,
+      color: Colors.black.withOpacity(0.8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: Icon(
+              _timerRunning ? Icons.pause : Icons.play_arrow,
+              color: Colors.white,
+              size: 32,
+            ),
+            onPressed: _toggleTimerRunning,
+          ),
+          Text(
+            _formatTime(_timerSeconds),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 36,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.replay, color: Colors.white, size: 28),
+            onPressed: _resetTimer,
+          ),
+        ],
+      ),
+    );
+  }
+
   void _handlePlayerDefeated(int defeatedPlayerId) {
-    // Determine winner (the other player)
     final winnerPlayerId = defeatedPlayerId == 0 ? 1 : 0;
     final winnerName = playerNames[winnerPlayerId];
 
@@ -427,7 +342,6 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
       builder: (context) => VictoryDialog(
         winnerName: winnerName,
         onConfirm: () async {
-          // Record the win
           await StatisticsManager.incrementPlayerWins(winnerName);
           await StatisticsManager.incrementGamesPlayed();
           Navigator.of(context).pop();
@@ -443,165 +357,104 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      child: Stack(
+      child: Column(
         children: [
-          // Main layout
-          Column(
-            children: [
-              // Top Player
-              Expanded(
-                flex: 1,
-                child: PlayerCounter(
-                  isTopPlayer: true,
-                  baseId: topBaseId,
-                  leaderId: topLeaderId,
-                  life: topLife,
-                  playerName: playerNames[0],
-                  onNameChange: (newName) =>
-                      setState(() => playerNames[0] = newName),
-                  onBaseChange: (baseId) => setState(() => topBaseId = baseId),
-                  onLeaderChange: (leaderId) =>
-                      setState(() => topLeaderId = leaderId),
-                  onLifeChange: (value) => setState(() => topLife = value),
-                  initiativePlayer: widget.initiativePlayer,
-                  onInitiativeClaimed: widget.onInitiativeClaimed,
-                  playerId: 0,
-                  onPlayerDefeated: _handlePlayerDefeated, // ADD THIS
-                ),
-              ),
-
-              // Middle Controls
-              Container(
-                height: 60,
-                color: Colors.black,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // Return to player count
-                    buildControlButton(
-                      icon: Icons.people,
-                      onTap: widget.onShowPlayerCount,
-                    ),
-
-                    // Reset Button
-                    buildControlButton(
-                      icon: Icons.refresh,
-                      onTap: () => setState(() {
-                        topLife = 0;
-                        bottomLife = 0;
-                      }),
-                    ),
-
-                    // Timer Toggle Button
-                    buildControlButton(
-                      icon: Icons.timer,
-                      color: _showTimer ? Colors.blue : Colors.white,
-                      onTap: _toggleTimer,
-                    ),
-
-                    // Blast Button
-                    InkWell(
-                      onTap: () => setState(() {
-                        if (topLife >= 0) topLife += 1;
-                        if (bottomLife >= 0) bottomLife += 1;
-                      }),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Text(
-                          "Blast",
-                          style: TextStyle(color: Colors.red, fontSize: 16),
-                        ),
-                      ),
-                    ),
-
-                    // Info Button
-                    buildControlButton(
-                      icon: Icons.info,
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => InfoDialog(
-                          onDismissRequest: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Bottom Player
-              Expanded(
-                flex: 1,
-                child: PlayerCounter(
-                  isTopPlayer: false,
-                  baseId: bottomBaseId,
-                  leaderId: bottomLeaderId,
-                  life: bottomLife,
-                  playerName: playerNames[1],
-                  onNameChange: (newName) =>
-                      setState(() => playerNames[1] = newName),
-                  onBaseChange: (baseId) =>
-                      setState(() => bottomBaseId = baseId),
-                  onLeaderChange: (leaderId) =>
-                      setState(() => bottomLeaderId = leaderId),
-                  onLifeChange: (value) => setState(() => bottomLife = value),
-                  initiativePlayer: widget.initiativePlayer,
-                  onInitiativeClaimed: widget.onInitiativeClaimed,
-                  playerId: 1,
-                  onPlayerDefeated: _handlePlayerDefeated, // ADD THIS
-                ),
-              ),
-            ],
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+            child: _showTimer ? _buildTimerPanel() : const SizedBox(height: 0),
           ),
-
-          // Timer Panel
-          SlideTransition(
-            position: _slideAnimation,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                width: double.infinity,
-                height: 80,
-                color: Colors.black.withOpacity(0.8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Play/Pause button
-                    IconButton(
-                      icon: Icon(
-                        _timerRunning ? Icons.pause : Icons.play_arrow,
-                        color: Colors.white,
-                        size: 32,
-                      ),
-                      onPressed: _toggleTimerRunning,
-                    ),
-
-                    // Timer display
-                    Text(
-                      _formatTime(_timerSeconds),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    // Reset button
-                    IconButton(
-                      icon: const Icon(
-                        Icons.replay,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      onPressed: _resetTimer,
-                    ),
-                  ],
+          Expanded(
+            flex: 1,
+            child: PlayerCounter(
+              isTopPlayer: true,
+              baseId: topBaseId,
+              leaderId: topLeaderId,
+              life: topLife,
+              playerName: playerNames[0],
+              onNameChange: (newName) =>
+                  setState(() => playerNames[0] = newName),
+              onBaseChange: (baseId) => setState(() => topBaseId = baseId),
+              onLeaderChange: (leaderId) =>
+                  setState(() => topLeaderId = leaderId),
+              onLifeChange: (value) => setState(() => topLife = value),
+              initiativePlayer: widget.initiativePlayer,
+              onInitiativeClaimed: widget.onInitiativeClaimed,
+              playerId: 0,
+              onPlayerDefeated: _handlePlayerDefeated,
+            ),
+          ),
+          Container(
+            height: 60,
+            color: Colors.black,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildControlButton(
+                  icon: Icons.people,
+                  onTap: widget.onShowPlayerCount,
                 ),
-              ),
+                buildControlButton(
+                  icon: Icons.refresh,
+                  onTap: () => setState(() {
+                    topLife = 0;
+                    bottomLife = 0;
+                  }),
+                ),
+                buildControlButton(
+                  icon: Icons.timer,
+                  color: _showTimer ? Colors.blue : Colors.white,
+                  onTap: _toggleTimer,
+                ),
+                InkWell(
+                  onTap: () => setState(() {
+                    if (topLife >= 0) topLife += 1;
+                    if (bottomLife >= 0) bottomLife += 1;
+                  }),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Text(
+                      "Blast",
+                      style: TextStyle(color: Colors.red, fontSize: 16),
+                    ),
+                  ),
+                ),
+                buildControlButton(
+                  icon: Icons.info,
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (context) => InfoDialog(
+                      onDismissRequest: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: PlayerCounter(
+              isTopPlayer: false,
+              baseId: bottomBaseId,
+              leaderId: bottomLeaderId,
+              life: bottomLife,
+              playerName: playerNames[1],
+              onNameChange: (newName) =>
+                  setState(() => playerNames[1] = newName),
+              onBaseChange: (baseId) =>
+                  setState(() => bottomBaseId = baseId),
+              onLeaderChange: (leaderId) =>
+                  setState(() => bottomLeaderId = leaderId),
+              onLifeChange: (value) => setState(() => bottomLife = value),
+              initiativePlayer: widget.initiativePlayer,
+              onInitiativeClaimed: widget.onInitiativeClaimed,
+              playerId: 1,
+              onPlayerDefeated: _handlePlayerDefeated,
             ),
           ),
         ],
@@ -609,6 +462,7 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
     );
   }
 }
+
 
 // Three Player Layout
 class ThreePlayerLayout extends StatefulWidget {
