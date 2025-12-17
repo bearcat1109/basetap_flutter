@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'player_counter.dart';
 import 'statistics_manager.dart';
 import 'dialogs.dart';
+import 'preferences_helper.dart';
 
 Widget buildControlButton({
   required IconData icon,
@@ -247,6 +248,34 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
   int bottomBaseId = 60;
   List<String> playerNames = ["Player 1", "Player 2"];
 
+  @override
+  void initState() {
+    super.initState();
+    _loadPlayerPreferences();
+  }
+
+   Future<void> _loadPlayerPreferences() async {
+    // Load player 0 (top)
+    final topBase = await PreferencesHelper.getPlayerBase(0);
+    final topLeader = await PreferencesHelper.getPlayerLeader(0);
+    final topName = await PreferencesHelper.getPlayerName(0);
+    
+    // Load player 1 (bottom)
+    final bottomBase = await PreferencesHelper.getPlayerBase(1);
+    final bottomLeader = await PreferencesHelper.getPlayerLeader(1);
+    final bottomName = await PreferencesHelper.getPlayerName(1);
+    
+    setState(() {
+      if (topBase != null) topBaseId = topBase;
+      if (topLeader != null) topLeaderId = topLeader;
+      if (topName != null) playerNames[0] = topName;
+      
+      if (bottomBase != null) bottomBaseId = bottomBase;
+      if (bottomLeader != null) bottomLeaderId = bottomLeader;
+      if (bottomName != null) playerNames[1] = bottomName;
+    });
+  }
+
   bool _showTimer = false;
   bool _timerRunning = false;
   int _timerSeconds = 60 * 60;
@@ -372,11 +401,34 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
               leaderId: topLeaderId,
               life: topLife,
               playerName: playerNames[0],
-              onNameChange: (newName) =>
-                  setState(() => playerNames[0] = newName),
-              onBaseChange: (baseId) => setState(() => topBaseId = baseId),
-              onLeaderChange: (leaderId) =>
-                  setState(() => topLeaderId = leaderId),
+              onNameChange: (newName) {
+                setState(() => playerNames[0] = newName);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 0,
+                  baseId: topBaseId,
+                  leaderId: topLeaderId,
+                  playerName: newName,
+                );
+              },
+              //onBaseChange: (baseId) => setState(() => topBaseId = baseId),
+              onBaseChange: (baseId) {
+                setState(() => topBaseId = baseId);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 0,
+                  baseId: baseId,
+                  leaderId: topLeaderId,
+                  playerName: playerNames[0],
+                );
+              },
+              onLeaderChange: (leaderId) {
+                setState(() => topLeaderId = leaderId);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 0,
+                  baseId: topBaseId,
+                  leaderId: leaderId,
+                  playerName: playerNames[0],
+                );
+              },
               onLifeChange: (value) => setState(() => topLife = value),
               initiativePlayer: widget.initiativePlayer,
               onInitiativeClaimed: widget.onInitiativeClaimed,
@@ -444,12 +496,33 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
               leaderId: bottomLeaderId,
               life: bottomLife,
               playerName: playerNames[1],
-              onNameChange: (newName) =>
-                  setState(() => playerNames[1] = newName),
-              onBaseChange: (baseId) =>
-                  setState(() => bottomBaseId = baseId),
-              onLeaderChange: (leaderId) =>
-                  setState(() => bottomLeaderId = leaderId),
+              onNameChange: (newName) {
+                setState(() => playerNames[1] = newName);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 1,
+                  baseId: bottomBaseId,
+                  leaderId: bottomLeaderId,
+                  playerName: newName,
+                );
+              },
+              onBaseChange: (baseId) {
+                setState(() => bottomBaseId = baseId);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 1,
+                  baseId: baseId,
+                  leaderId: bottomLeaderId,
+                  playerName: playerNames[1],
+                );
+              },
+              onLeaderChange: (leaderId) {
+                setState(() => bottomLeaderId = leaderId);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 1,
+                  baseId: bottomBaseId,
+                  leaderId: leaderId,
+                  playerName: playerNames[1],
+                );
+              },
               onLifeChange: (value) => setState(() => bottomLife = value),
               initiativePlayer: widget.initiativePlayer,
               onInitiativeClaimed: widget.onInitiativeClaimed,
