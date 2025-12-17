@@ -56,6 +56,25 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
   int _timerSeconds = 60 * 60;
   Timer? _timer;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadPlayerPreferences();
+  }
+
+  Future<void> _loadPlayerPreferences() async {
+    // Load player 0 data
+    final base = await PreferencesHelper.getPlayerBase(0);
+    final leader = await PreferencesHelper.getPlayerLeader(0);
+    final name = await PreferencesHelper.getPlayerName(0);
+    
+    setState(() {
+      if (base != null) playerBaseId = base;
+      if (leader != null) playerLeaderId = leader;
+      if (name != null) playerName = name;
+    });
+  }
+
   String _formatTime(int seconds) {
     int hours = seconds ~/ 3600;
     int minutes = (seconds % 3600) ~/ 60;
@@ -204,12 +223,33 @@ class _OnePlayerLayoutState extends State<OnePlayerLayout>
               leaderId: playerLeaderId,
               life: playerLife,
               playerName: playerName,
-              onNameChange: (newName) =>
-                  setState(() => playerName = newName),
-              onBaseChange: (baseId) =>
-                  setState(() => playerBaseId = baseId),
-              onLeaderChange: (leaderId) =>
-                  setState(() => playerLeaderId = leaderId),
+              onNameChange: (newName) {
+                setState(() => playerName = newName);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 0,
+                  baseId: playerBaseId,
+                  leaderId: playerLeaderId,
+                  playerName: newName,
+                );
+              },
+              onBaseChange: (baseId) {
+                setState(() => playerBaseId = baseId);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 0,
+                  baseId: baseId,
+                  leaderId: playerLeaderId,
+                  playerName: playerName,
+                );
+              },
+              onLeaderChange: (leaderId) {
+                setState(() => playerLeaderId = leaderId);
+                PreferencesHelper.savePlayerData(
+                  playerIndex: 0,
+                  baseId: playerBaseId,
+                  leaderId: leaderId,
+                  playerName: playerName,
+                );
+              },
               onLifeChange: (value) => setState(() => playerLife = value),
               initiativePlayer: widget.initiativePlayer,
               onInitiativeClaimed: widget.onInitiativeClaimed,
