@@ -207,7 +207,8 @@ class _PlayerCounterState extends State<PlayerCounter>
               ),
 
               // Life total with damage indicator
-              Center(
+              IgnorePointer(
+              child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -239,6 +240,8 @@ class _PlayerCounterState extends State<PlayerCounter>
                   ],
                 ),
               ),
+          ), //IgnorePointer. Needed for the +- to not block input.
+
 
               // Dead player overlay
               if (widget.life >= baseMaxHealth)
