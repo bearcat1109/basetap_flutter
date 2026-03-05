@@ -139,6 +139,19 @@ final bases = [
   const Base(id:62, baseName: "Naval Intelligence HQ(Aggression)", maxHealth:30, color:Colors.red),
   const Base(id:63, baseName: "Amnesty Housing(Cunning)", maxHealth:30, color:Colors.yellow),
   const Base(id:64, baseName: "Mount Tantiss(Cunning)", maxHealth:30, color:Colors.yellow),
+  // Set 7
+  const Base(id:65, baseName:"Alliance Outpost(Vigilance)", maxHealth:26, color:Colors.blue),
+  const Base(id:66, baseName:"Daimyo's Palace(Vigilance)", maxHealth:27, color:Colors.blue),
+  const Base(id:67, baseName:"Coaxium Mine(Vigilance)", maxHealth:27, color:Colors.blue),
+  const Base(id:68, baseName:"Aldhani Garrison(Command)", maxHealth:27, color:Colors.green),
+  const Base(id:69, baseName:"Great Pit of Carkoon(Command)", maxHealth:27, color:Colors.green),
+  const Base(id:70, baseName:"Imperial Command Complex(Command)", maxHealth:27, color:Colors.green),
+  const Base(id:71, baseName:"Contested Caverns(Aggression)", maxHealth:27, color:Colors.red),
+  const Base(id:72, baseName:"Shipbreaking Yard(Aggression)", maxHealth:26, color:Colors.red),
+  const Base(id:73, baseName:"Stygeon Spire(Aggression)", maxHealth:27, color:Colors.red),
+  const Base(id:74, baseName:"Canto Bight(Cunning)", maxHealth:27, color:Colors.yellow),
+  const Base(id:75, baseName:"Citadel Research Center(Cunning)", maxHealth:26, color:Colors.yellow),
+  const Base(id:74, baseName:"Partisan Hideout(Cunning)", maxHealth:27, color:Colors.yellow),
 
 ];
 
@@ -369,4 +382,45 @@ final leaders = [
   const Leader(id:302, name:"Padme Amidala, What do You Have to Hide? (Showcase)", imagePath: "assets/images/leaders/padme_amidala_what_do_you_have_to_hide_showcase.webp"),
   const Leader(id:303, name:"Sabe, Queen's Shadow (Showcase)", imagePath: "assets/images/leaders/sabe_queens_shadow_showcase.webp"),
   const Leader(id:304, name:"DJ, Need a Lift? (Showcase)", imagePath: "assets/images/leaders/dj_need_a_lift_showcase.webp"),
-]; 
+
+  // LAW Leaders
+  const Leader(id:305, name:"Saw Gerrara, Bring Down the Empire", imagePath: "assets/images/leaders/saw_gerrara_bring_down_the_empire.png"),
+  const Leader(id:306, name:"Tobias Beckett, People Are Predictable", imagePath: "assets/images/leaders/tobias_beckett_people_are_predictable.png"),
+  const Leader(id:306, name:"Agent Kallus, Reconsider Your Allegiance", imagePath: "assets/images/leaders/agent_kallus_reconsider_your_allegiance.png"),
+  const Leader(id:307, name:"Aurra Sing, Assassin", imagePath: "assets/images/leaders/aurra_sing_assassin.png"),
+  const Leader(id:308, name:"Jyn Erso, Time to Fight", imagePath: "assets/images/leaders/jyn_erso_time_to_fight.png"),
+  const Leader(id:309, name:"Vel Sartha, Aldhani Insurgent", imagePath: "assets/images/leaders/vel_sartha_aldhani_insurgent.png"),
+  const Leader(id:310, name:"Boba Fett, Krayt's Claw Commander", imagePath: "assets/images/leaders/boba_fett_krayts_claw_commander.png"),
+  const Leader(id:311, name:"Director Krennic, Amidst My Achievement", imagePath: "assets/images/leaders/director_krennic_amidst_my_achievement.png"),
+  const Leader(id:312, name:"Hera Syndulla, Not Fighting Alone", imagePath: "assets/images/leaders/hera_syndulla_not_fighting_alone.png"),
+  const Leader(id:313, name:"Leia Organa, Someone Who Loves You", imagePath: "assets/images/leaders/leia_organa_someone_who_loves_you.png"),
+  const Leader(id:314, name:"Darth Vader, Unstoppable", imagePath: "assets/images/leaders/darth_vader_unstoppable.png"),
+  const Leader(id:315, name:"Sebulba, Especially Dangerous Dug", imagePath: "assets/images/leaders/sebulba_especially_dangerous_dug.png"),
+  const Leader(id:316, name:"Chewbacca, Hero of Kessel", imagePath: "assets/images/leaders/chewbacca_hero_of_kessel.png"),
+  const Leader(id:317, name:"Enfys Nest, Until We Can Go No Higher", imagePath: "assets/images/leaders/enfys_nest_until_we_can_go_no_higher.png"),
+  const Leader(id:318, name:"Jabba the Hutt, Crime Boss", imagePath: "assets/images/leaders/jabba_the_hutt_crime_boss.png"),
+  const Leader(id:319, name:"The Client, Please Lower Your Blaster", imagePath: "assets/images/leaders/the_client_please_lower_your_blaster.png"),
+  const Leader(id:320, name:"Han Solo, I Got a Really Good Feeling", imagePath: "assets/images/leaders/han_solo_i_got_a_really_good_feeling.png"),
+  const Leader(id:321, name:"Lando Calrissian, Full Sabacc", imagePath: "assets/images/leaders/lando_calrissian_full_sabacc.png"),
+
+  // LAW showcases
+  const Leader(id:322, name:"Saw Gerrara, Bring Down the Empire(Showcase)", imagePath: "assets/images/leaders/saw_gerrara_bring_down_the_empire_showcase.png"),
+  const Leader(id:323, name:"Tobias Beckett, People Are Predictable(Showcase)", imagePath: "assets/images/leaders/tobias_beckett_people_are_predictable_showcase.png"),
+  const Leader(id:324, name:"Agent Kallus, Reconsider Your Allegiance(Showcase)", imagePath: "assets/images/leaders/agent_kallus_reconsider_your_allegiance_showcase.png"),
+  const Leader(id:325, name:"Aurra Sing, Assassin(Showcase)", imagePath: "assets/images/leaders/aurra_sing_assassin_showcase.png"),
+  const Leader(id:326, name:"Jyn Erso, Time to Fight(Showcase)", imagePath: "assets/images/leaders/jyn_erso_time_to_fight_showcase.png"),
+  const Leader(id:327, name:"Vel Sartha, Aldhani Insurgent(Showcase)", imagePath: "assets/images/leaders/vel_sartha_aldhani_insurgent_showcase.png"),
+  const Leader(id:328, name:"Boba Fett, Krayt's Claw Commander(Showcase)", imagePath: "assets/images/leaders/boba_fett_krayts_claw_commander_showcase.png"),
+  const Leader(id:329, name:"Director Krennic, Amidst My Achievement(Showcase)", imagePath: "assets/images/leaders/director_krennic_amidst_my_achievement_showcase.png"),
+  const Leader(id:330, name:"Hera Syndulla, Not Fighting Alone(Showcase)", imagePath: "assets/images/leaders/hera_syndulla_not_fighting_alone_showcase.png"),
+  const Leader(id:331, name:"Leia Organa, Someone Who Loves You(Showcase)", imagePath: "assets/images/leaders/leia_organa_someone_who_loves_you_showcase.png"),
+  const Leader(id:332, name:"Darth Vader, Unstoppable(Showcase)", imagePath: "assets/images/leaders/darth_vader_unstoppable_showcase.png"),
+  const Leader(id:333, name:"Sebulba, Especially Dangerous Dug(Showcase)", imagePath: "assets/images/leaders/sebulba_especially_dangerous_dug_showcase.png"),
+  const Leader(id:334, name:"Chewbacca, Hero of Kessel(Showcase)", imagePath: "assets/images/leaders/chewbacca_hero_of_kessel_showcase.png"),
+  const Leader(id:335, name:"Enfys Nest, Until We Can Go No Higher(Showcase)", imagePath: "assets/images/leaders/enfys_nest_until_we_can_go_no_higher_showcase.png"),
+  const Leader(id:336, name:"Jabba the Hutt, Crime Boss(Showcase)", imagePath: "assets/images/leaders/jabba_the_hutt_crime_boss_showcase.png"),
+  const Leader(id:337, name:"The Client, Please Lower Your Blaster(Showcase)", imagePath: "assets/images/leaders/the_client_please_lower_your_blaster_showcase.png"),
+  const Leader(id:338, name:"Han Solo, I Got a Really Good Feeling(Showcase)", imagePath: "assets/images/leaders/han_solo_i_got_a_really_good_feeling_showcase.png"),
+  const Leader(id:339, name:"Lando Calrissian, Full Sabacc(Showcase)", imagePath: "assets/images/leaders/lando_calrissian_full_sabacc_showcase.png"),
+
+];
