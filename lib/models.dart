@@ -152,6 +152,22 @@ final bases = [
   const Base(id:74, baseName:"Canto Bight(Cunning)", maxHealth:27, color:Colors.yellow),
   const Base(id:75, baseName:"Citadel Research Center(Cunning)", maxHealth:26, color:Colors.yellow),
   const Base(id:74, baseName:"Partisan Hideout(Cunning)", maxHealth:27, color:Colors.yellow),
+  // Set 8
+  const Base(id:75, baseName:"Fortress of the Great Mothers(Vigilance)", maxHealth:30, color:Colors.blue),
+  const Base(id:76, baseName:"Nevarro City, Restored(Vigilance)", maxHealth:30, color:Colors.blue),
+  const Base(id:77, baseName:"Emperor's Throne Room(Command)", maxHealth:30, color:Colors.green),
+  const Base(id:78, baseName:"Kryze Castle(Command)", maxHealth:30, color:Colors.green),
+  const Base(id:79, baseName:"Ancient Henge(Aggression)", maxHealth:30, color:Colors.red),
+  const Base(id:80, baseName:"Dragonsnake Bog(Aggression)", maxHealth:30, color:Colors.red),
+  const Base(id:79, baseName:"Emperor's Observatory(Cunning)", maxHealth:30, color:Colors.yellow),
+  const Base(id:79, baseName:"Freetown(Cunning)", maxHealth:30, color:Colors.yellow),
+  
+
+
+
+
+
+
 
 ];
 
@@ -422,5 +438,55 @@ final leaders = [
   const Leader(id:337, name:"The Client, Please Lower Your Blaster(Showcase)", imagePath: "assets/images/leaders/the_client_please_lower_your_blaster_showcase.png"),
   const Leader(id:338, name:"Han Solo, I Got a Really Good Feeling(Showcase)", imagePath: "assets/images/leaders/han_solo_i_got_a_really_good_feeling_showcase.png"),
   const Leader(id:339, name:"Lando Calrissian, Full Sabacc(Showcase)", imagePath: "assets/images/leaders/lando_calrissian_full_sabacc_showcase.png"),
+
+  // ASH Leaders
+  const Leader(id:340, name:"The Armorer, Steel Shapes Us", imagePath: "assets/images/leaders/the_armorer_steel_shapes_us.png"),
+  const Leader(id:341, name:"Fennec Shand, Ready For War", imagePath: "assets/images/leaders/fennec_shand_ready_for_war.png"),
+  const Leader(id:342, name:"Baylan Skoll, Power Beyond Dreams", imagePath: "assets/images/leaders/baylan_skoll_power_beyond_dreams.png"),
+  const Leader(id:343, name:"Grand Admiral Thrawn, Victory Is Mine", imagePath: "assets/images/leaders/grand_admiral_thrawn_victory_is_mine.png"),
+  const Leader(id:344, name:"Luke Skywalker, I Can Save Him", imagePath: "assets/images/leaders/luke_skywalker_i_can_save_him.png"),
+  const Leader(id:345, name:"Sabine Wren, Bargaining On Belief", imagePath: "assets/images/leaders/sabine_wren_bargaining_on_belief.png"),
+  const Leader(id:346, name:"Grand Admiral Sloane, Holding the Emperor Together", imagePath: "assets/images/leaders/grand_admiral_sloane_holding_the_emperor_together.png"),
+  const Leader(id:347, name:"Moff Gideon, Indomitable Warlord", imagePath: "assets/images/leaders/moff_gideon_indomitable_warlord.png"),
+  const Leader(id:348, name:"Ahsoka Tano, Trust in the Force", imagePath: "assets/images/leaders/ahsoka_tano_trust_in_the_force.png"),
+  const Leader(id:349, name:"Bo-Katan Kryze, Reclaiming Mandalore", imagePath: "assets/images/leaders/bo-katan_kryze_reclaiming_mandalore.png"),
+  const Leader(id:350, name:"Cad Bane, Still Faster Than You", imagePath: "assets/images/leaders/cad_bane_still_faster_than_you.png"),
+  const Leader(id:351, name:"Vane, Quarrelsome Pirate", imagePath: "assets/images/leaders/vane_quarrelsome_pirate.png"),
+  const Leader(id:352, name:"Ezra Bridger, It's Now or Never", imagePath: "assets/images/leaders/ezra_bridger_it's_now_or_never.png"),
+  const Leader(id:353, name:"The Mandalorian, We Can't Keep Running", imagePath: "assets/images/leaders/the_mandalorian_we_can't_keep_running.png"),
+  const Leader(id:354, name:"Emperor Palpatine, According to my Design", imagePath: "assets/images/leaders/emperor_palpatine_according_to_my_design.png"),
+  const Leader(id:355, name:"Shin Hati, Eager Adversary", imagePath: "assets/images/leaders/shin_hati_eager_adversary.png"),
+  const Leader(id:356, name:"Greef Karga, Gracious Magistrate", imagePath: "assets/images/leaders/greef_karga_gracious_magistrate.png"),
+  const Leader(id:357, name:"Grogu, Charming Companion", imagePath: "assets/images/leaders/grogu_charming_companion.png"),
+
+  // ASH showcases
+  const Leader(id:358, name:"The Armorer, Steel Shapes Us (Showcase)", imagePath: "assets/images/leaders/the_armorer_steel_shapes_us_showcase.png"),
+  const Leader(id:359, name:"Fennec Shand, Ready For War (Showcase)", imagePath: "assets/images/leaders/fennec_shand_ready_for_war_showcase.png"),
+  const Leader(id:360, name:"Baylan Skoll, Power Beyond Dreams(Showcase)", imagePath: "assets/images/leaders/baylan_skoll_power_beyond_dreams_showcase.png"),
+  const Leader(id:361, name:"Grand Admiral Thrawn, Victory Is Mine(Showcase)", imagePath: "assets/images/leaders/grand_admiral_thrawn_victory_is_mine_showcase.png"),
+  const Leader(id:362, name:"Luke Skywalker, I Can Save Him(Showcase)", imagePath: "assets/images/leaders/luke_skywalker_i_can_save_him_showcase.png"),
+  const Leader(id:363, name:"Sabine Wren, Bargaining On Belief(Showcase)", imagePath: "assets/images/leaders/sabine_wren_bargaining_on_belief_showcase.png"),
+  const Leader(id:364, name:"Grand Admiral Sloane, Holding the Emperor Together(Showcase)", imagePath: "assets/images/leaders/grand_admiral_sloane_holding_the_emperor_together_showcase.png"),
+  const Leader(id:365, name:"Moff Gideon, Indomitable Warlord(Showcase)", imagePath: "assets/images/leaders/moff_gideon_indomitable_warlord_showcase.png"),
+  const Leader(id:366, name:"Ahsoka Tano, Trust in the Force(Showcase)", imagePath: "assets/images/leaders/ahsoka_tano_trust_in_the_force_showcase.png"),
+  const Leader(id:367, name:"Bo-Katan Kryze, Reclaiming Mandalore(Showcase)", imagePath: "assets/images/leaders/bo-katan_kryze_reclaiming_mandalore_showcase.png"),
+  const Leader(id:368, name:"Cad Bane, Still Faster Than You(Showcase)", imagePath: "assets/images/leaders/cad_bane_still_faster_than_you_showcase.png"),
+  const Leader(id:369, name:"Vane, Quarrelsome Pirate(Showcase)", imagePath: "assets/images/leaders/vane_quarrelsome_pirate_showcase.png"),
+  const Leader(id:370, name:"Ezra Bridger, It's Now or Never(Showcase)", imagePath: "assets/images/leaders/ezra_bridger_it's_now_or_never_showcase.png"),
+  const Leader(id:371, name:"The Mandalorian, We Can't Keep Running(Showcase)", imagePath: "assets/images/leaders/the_mandalorian_we_can't_keep_running_showcase.png"),
+  const Leader(id:372, name:"Emperor Palpatine, According to my Design(Showcase)", imagePath: "assets/images/leaders/emperor_palpatine_according_to_my_design_showcase.png"),
+  const Leader(id:373, name:"Shin Hati, Eager Adversary(Showcase)", imagePath: "assets/images/leaders/shin_hati_eager_adversary_showcase.png"),
+  const Leader(id:374, name:"Greef Karga, Gracious Magistrate(Showcase)", imagePath: "assets/images/leaders/greef_karga_gracious_magistrate_showcase.png"),
+  const Leader(id:375, name:"Grogu, Charming Companion(Showcase)", imagePath: "assets/images/leaders/grogu_charming_companion_showcase.png"),
+
+
+
+
+
+
+
+
+
+
 
 ];

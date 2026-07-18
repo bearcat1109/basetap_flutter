@@ -47,8 +47,8 @@ class OnePlayerLayout extends StatefulWidget {
 class _OnePlayerLayoutState extends State<OnePlayerLayout>
     with SingleTickerProviderStateMixin {
   int playerLife = 0;
-  int playerLeaderId = 336;
-  int playerBaseId = 69;
+  int playerLeaderId = 362;
+  int playerBaseId = 80;
   String playerName = "Player 1";
 
   bool _showTimer = false;
@@ -282,10 +282,10 @@ class _TwoPlayerLayoutState extends State<TwoPlayerLayout>
     with SingleTickerProviderStateMixin {
   int topLife = 0;
   int bottomLife = 0;
-  int topLeaderId = 331;
-  int bottomLeaderId = 336;
-  int topBaseId = 66;
-  int bottomBaseId = 69;
+  int topLeaderId = 372;
+  int bottomLeaderId = 362;
+  int topBaseId = 77;
+  int bottomBaseId = 80;
   List<String> playerNames = ["Player 1", "Player 2"];
 
   @override

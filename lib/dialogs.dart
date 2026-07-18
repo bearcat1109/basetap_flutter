@@ -13,7 +13,7 @@ class FirstTimeWelcomeDialog extends StatelessWidget {
     return AlertDialog(
       title: const Text('Welcome to BaseTap!'),
       content: const Text(
-        "All images and Star Wars property of Disney and Fantasy Flight Games. \n\n" "BaseTap is a life counter app designed for Star Wars: Unlimited." "This app was created as a personal project, and is and will always be free.I do not own any of the images or characters used.\n\n" "Version 1.8 - LAW\n" "Created by Bearcat!\n" +
+        "All images and Star Wars property of Disney and Fantasy Flight Games. \n\n" "BaseTap is a life counter app designed for Star Wars: Unlimited." "This app was created as a personal project, and is and will always be free.I do not own any of the images or characters used.\n\n" "Version 1.9 - ASH\n" "Created by Bearcat!\n" +
             "Youtube.com/@bearcatmakesgames\n\n" +
             "Feedback is awesome. Please email feedback or bugs to bearcatfeedback@gmail.com\n\n" +
             "Want to support the development of BaseTap? You rock! PayPal.me/BearcatCodes",
