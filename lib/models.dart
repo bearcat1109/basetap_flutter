@@ -235,7 +235,7 @@ final leaders = [
   const Leader(id: 58, name: "Admiral Piett, Commanding the Armada", imagePath: "assets/images/leaders/admiral_piett_commanding_the_armada.jpg"),
   const Leader(id: 59, name: "Admiral Holdo, We're Not Alone", imagePath: "assets/images/leaders/admiral_holdo_were_not_alone.jpg"),
   const Leader(id: 60, name: "Wedge Antilles, Leader of Red Squadron", imagePath: "assets/images/leaders/wedge_antilles_leader_of_red_sqaudron.jpg"),
-  const Leader(id: 61, name: "Darth Vader, Victor Squadron Leader", imagePath: "assets/images/leaders/darth_vader_victor_squadron_leader.jpg"),
+  const Leader(id: 61, name: "Darth Vader, Victor Squadron Leader", imagePath: "assets/images/leaders/darth_vader_victor_squadron_leader.webp"),
   const Leader(id: 62, name: "Boba Fett, Any Methods Necessary", imagePath: "assets/images/leaders/boba_fett_any_methods_necessary.jpg"),
   const Leader(id: 63, name: "Poe Dameron, I Can Fly Anything", imagePath: "assets/images/leaders/poe_dameron_i_can_fly_anything.jpg"),
   const Leader(id: 64, name: "Luke Skywalker, Hero of Yavin", imagePath: "assets/images/leaders/luke_skywalker_hero_of_yavin.jpg"),
